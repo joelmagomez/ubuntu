@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conexão com MySQL</title>
+</head>
+<body>
+  <h1>Usuários Cadastrados</h1>
+  <button id="carregarDados">Carregar Dados</button>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody id="tabelaDados">
+      <!-- Os dados serão carregados aqui -->
+    </tbody>
+  </table>
+
+  <script>
+    document.getElementById('carregarDados').addEventListener('click', function() {
+      // Fazendo uma requisição HTTP para o arquivo PHP que buscará os dados do MySQL
+      fetch('./get_data.php')
+        .then(response => response.json())
+        .then(data => {
+          const tabela = document.getElementById('tabelaDados');
+          tabela.innerHTML = ''; // Limpa a tabela antes de adicionar novos dados
+
+          // Adicionando as linhas na tabela
+          data.forEach(usuario => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = <td>${usuario.id}</td><td>${usuario.nome}</td><td>${usuario.email}</td>;
+            tabela.appendChild(tr);
+          });
+        })
+    });
+  </script>
+</body>
+</html>
